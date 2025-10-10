@@ -15,7 +15,7 @@ export const timeAvailabilityIntersection = (venueOpeningHours: string[][], cour
       let result = ""
       for(let i = 0; i < venueOpeningHours.length; i++) {
             const [venueStartTime, venueEndtime] = venueOpeningHours[i]
-
+console.log(venueStartTime, "-", venueEndtime)
             for(let j = 0; j < courierDeliveryHours.length; j++) {
                   const [courierStartTime, courierEndTime] = courierDeliveryHours[j]
 
