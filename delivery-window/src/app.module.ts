@@ -6,6 +6,8 @@ import { MICROSERVICES_CLIENTS } from './constants';
 import { VenueController } from './venue/venue.controller';
 import { CourierController } from './courier/courier.controller';
 import { DeliveryHoursController } from './delivery-hours/delivery-hours.controller';
+import { ResilienceModule } from 'nestjs-resilience';
+import { DeliveryHoursService } from './delivery-hours/delivery-hours.service';
 
 @Module({
   imports: [
@@ -26,9 +28,12 @@ import { DeliveryHoursController } from './delivery-hours/delivery-hours.control
           queue: "courier_service_queue"
         }
       }
-    ])
+    ]),
+    ResilienceModule.forRoot({
+      
+    })
   ],
   controllers: [AppController, VenueController, CourierController, DeliveryHoursController],
-  providers: [AppService],
+  providers: [AppService, DeliveryHoursService],
 })
 export class AppModule {}
