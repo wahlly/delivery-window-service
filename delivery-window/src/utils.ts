@@ -15,19 +15,16 @@ export const timeAvailabilityIntersection = (venueOpeningHours: string[][], cour
       let result = ""
       for(let i = 0; i < venueOpeningHours.length; i++) {
             const [venueStartTime, venueEndtime] = venueOpeningHours[i]
+            // console.log("venue: ", venueStartTime, "-", venueEndtime)
 
             for(let j = 0; j < courierDeliveryHours.length; j++) {
                   const [courierStartTime, courierEndTime] = courierDeliveryHours[j]
-
+                  // console.log("courier: ", courierStartTime, "-", courierEndTime)
                   //convert to minutes for accurate comparisons
                   let venueStart = toMinutes(venueStartTime)
                   let venueEnd = toMinutes(venueEndtime)
                   let courierStart = toMinutes(courierStartTime)
                   let courierEnd = toMinutes(courierEndTime)
-
-                  if(venueStart > courierEnd) { //skip courier windows already iterated
-                        continue
-                  }
 
                   //handle overnight window (crossing midnight)
                   if(venueEnd < venueStart) {
@@ -37,8 +34,13 @@ export const timeAvailabilityIntersection = (venueOpeningHours: string[][], cour
                         courierEnd += 1440
                   }
 
+                  if(venueStart > courierEnd) { //skip courier windows already iterated
+                        continue
+                  }
+
                   const startTime = Math.max(venueStart, courierStart)
                   const endTime = Math.min(venueEnd, courierEnd)
+                  // console.log("kd: ", startTime, "-", endTime)
                   //ensure the available intersection period is greater than 30 minutes
                   if(endTime > startTime && (endTime - startTime) > 30) { //check if its a valid time range, and time range difference is greater than 30 minutes
                         //format in HH:mm style
